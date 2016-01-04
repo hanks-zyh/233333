@@ -61,9 +61,18 @@ var MainView = React.createClass({
                     </View>
                   </TouchableOpacity>
                     <View style={{ flexDirection:'row', justifyContent:'space-between', marginLeft:8,marginRight:8 }}>
-                      <Image source={{ uri: rowData.subList[0].thumlink }} style={styles.itemImage} />
-                      <Image source={{ uri: rowData.subList[1].thumlink }} style={styles.itemImage} />
-                      <Image source={{ uri: rowData.subList[2].thumlink }} style={styles.itemImage} />
+                      <TouchableOpacity sytle={styles.item}>
+                        <Image source={{ uri: rowData.subList[0].thumlink }} style={styles.itemImage} />
+                        <Text style={styles.itemText}>{ rowData.subList[0].title }</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity sytle={styles.item}>
+                        <Image source={{ uri: rowData.subList[1].thumlink }} style={styles.itemImage} />
+                        <Text style={styles.itemText}>{ rowData.subList[1].title }</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity sytle={styles.item}>
+                        <Image source={{ uri: rowData.subList[2].thumlink }} style={styles.itemImage} />
+                        <Text style={styles.itemText}>{ rowData.subList[2].title }</Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
               }/>
@@ -78,7 +87,12 @@ var styles = StyleSheet.create({
      flex:1,
      alignSelf:'stretch',
   },
-  itemImage:{height:80,width:80, margin:12,},
+  item:{
+  },
+  itemText:{
+      alignSelf:'center',
+  },
+  itemImage:{height:90,width:90, margin:12,},
 });
 
 module.exports = MainView;
