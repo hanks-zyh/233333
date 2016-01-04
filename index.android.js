@@ -13,14 +13,6 @@ var {
   View,
 } = React;
 
-var AwesomeProject = React.createClass({
-   render: function() {
-    return (
-      <View>
-        <MainView />
-      </View>
-    );
-  }
-});
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+
+AppRegistry.registerComponent('AwesomeProject', () => MainView);

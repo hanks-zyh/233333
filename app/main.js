@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react-native');
+var SubListView = require('./sublist.js')
 var {
   AppRegistry,
   StyleSheet,
@@ -14,15 +15,17 @@ var {
   TouchableOpacity,
   ScrollView,
   ListView,
+  Navigator,
 } = React;
-
-var MainView = React.createClass({
+var  _navigator ;
+module.exports = React.createClass({
   getInitialState: function(){
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(this._getData()),
     };
   },
+
   _getData:function(){
     var datas = [];
     fetch('https://face.ersansan.cn/mainpage')
@@ -43,8 +46,15 @@ var MainView = React.createClass({
     }).done;
     return datas;
   },
-  render: function() {
-    return (
+
+  configureScenceAndroid: function(){
+    return Navigator.SceneConfigs.FadeAndroid;
+  },
+
+  renderSceneAndroid: function(route, navigator){
+    _navigator = navigator;
+    if(route.id === 'main'){
+      return (
         <ScrollView>
           <View>
             <View style={{ justifyContent:'center', alignItems:'center',
@@ -57,7 +67,7 @@ var MainView = React.createClass({
             <ListView dataSource={this.state.dataSource}
               renderRow={(rowData) =>
                   <View>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => _navigator.push({ row:rowData,id:'subList'})}  >
                     <View  style={{ flexDirection:'row' , alignItems:'center', height:56,}}>
                       <View  style={{ width:4, margin:4,  backgroundColor:'#FFFF00' }} />
                       <Text style={{ color:'#FF0000', fontSize:20,  margin: 8}}>{ rowData.title }</Text>
@@ -82,9 +92,30 @@ var MainView = React.createClass({
               }/>
             </View>
         </ScrollView>
+      );
+    }
+
+    if(route.id === 'subList'){
+      return (
+        <SubListView navigator={navigator} route={route}/>
+       );
+    }
+
+  },
+  render: function() {
+    var renderScene = this.renderSceneAndroid;
+    var configureScence = this.configureScenceAndroid;
+    return (
+      <Navigator
+       debugOverlay={false}
+       initialRoute={{ id:'main'}}
+       configureScence={{ configureScence }}
+       renderScene={renderScene}
+      />
     );
   }
 });
+
 var styles = StyleSheet.create({
   topImage:{
      flex:1,
@@ -97,5 +128,3 @@ var styles = StyleSheet.create({
   },
   itemImage:{height:90,width:90, margin:12,},
 });
-
-module.exports = MainView;
