@@ -47,6 +47,10 @@ var MainView = React.createClass({
     return (
         <ScrollView>
           <View>
+            <View style={{ justifyContent:'center', alignItems:'center',
+             backgroundColor:'#FFFF00' , height:56, }}>
+              <Text style={{    color:'#212121', fontSize:20,}}>鬼畜表情</Text>
+            </View>
             <View style={{ height:150, alignSelf:'stretch' }}>
               <Image source={{ uri: 'http://face.ersansan.cn/Public/pic/banner/hongbao.jpg' }} style={styles.topImage}/>
             </View>
@@ -81,7 +85,6 @@ var MainView = React.createClass({
     );
   }
 });
-
 var styles = StyleSheet.create({
   topImage:{
      flex:1,
