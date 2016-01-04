@@ -5,23 +5,22 @@
 'use strict';
 
 var React = require('react-native');
+var MainView = require('./app/main.js');
+
 var {
   AppRegistry,
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
 } = React;
 
 var AwesomeProject = React.createClass({
    render: function() {
     return (
-      <View style={{ flex:1, alignItems:'center', justifyContent:'center'}}>
-
+      <View>
+        <MainView />
       </View>
     );
   }
 });
-
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
