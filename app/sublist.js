@@ -72,7 +72,7 @@ module.exports = React.createClass({
                 <TouchableOpacity>
                   <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
                     <Image source={{ uri: rowData.thumlink }} style={{height:80,width:80, margin:12,}} />
-                    <Text style={{ marginTop:12, color:'#234',backgroundColor:'#234234',fontSize:16,}}>{rowData.title}</Text>
+                    <Text style={{ marginTop:12, color:'#234', fontSize:16,}}>{rowData.title}</Text>
                     <Text style={{ margin:12, color:'#aaaa00', fontSize:24, }}>></Text>
                   </View>
                 </TouchableOpacity>
