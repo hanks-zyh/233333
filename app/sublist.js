@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react-native');
+var ImageListView = require('./imagelist.js');
 var {
   AppRegistry,
   StyleSheet,
@@ -15,6 +16,7 @@ var {
   ScrollView,
   ListView,
   BackAndroid,
+  Navigator,
 } = React;
 
 var _item ;
@@ -60,8 +62,15 @@ module.exports = React.createClass({
     }).done;
     return datas;
   },
-  render: function() {
-    return (
+
+    configureScenceAndroid: function(){
+      return Navigator.SceneConfigs.FadeAndroid;
+    },
+
+    renderSceneAndroid: function(route, navigator){
+      _navigator = navigator;
+      if(route.id === 'main'){
+        return (
           <View>
             <View style={{ justifyContent:'center', alignItems:'center',
              backgroundColor:'#FFFF00' , height:56, }}>
@@ -69,7 +78,7 @@ module.exports = React.createClass({
             </View>
             <ListView dataSource={this.state.dataSource}
               renderRow={(rowData) =>
-                <TouchableOpacity onPress={ ()=> _navigator.push({row:rowData,id='imageList'}) } >
+                <TouchableOpacity onPress={() => _navigator.push({ row:rowData,id:'imageList'})}  >
                   <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
                     <Image source={{ uri: rowData.thumlink }} style={{height:80,width:80, margin:12,}} />
                     <Text style={{ marginTop:12, color:'#234', fontSize:16,}}>{rowData.title}</Text>
@@ -78,6 +87,24 @@ module.exports = React.createClass({
                 </TouchableOpacity>
               }/>
             </View>
+        );
+      }
+      if(route.id === 'imageList'){
+        return (
+          <ImageListView navigator={navigator} route={route}/>
+         );
+      }
+    },
+  render: function() {
+    var renderScene = this.renderSceneAndroid;
+    var configureScence = this.configureScenceAndroid;
+    return (
+      <Navigator
+       debugOverlay={false}
+       initialRoute={{ id:'main'}}
+       configureScence={{ configureScence }}
+       renderScene={renderScene}
+      />
     );
   }
 });

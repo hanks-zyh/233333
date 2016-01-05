@@ -15,11 +15,12 @@ var {
   ScrollView,
   ListView,
   BackAndroid,
+  Dimensions,
 } = React;
 
 var _item ;
 var _navigator ;
-
+var _screenWidth;
 BackAndroid.addEventListener('hardwareBackPress', function() {
   if(_navigator == null){
     return false;
@@ -33,8 +34,9 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
 
 module.exports = React.createClass({
   getInitialState: function(){
-     _navigator = this.props.navigator;
+    _navigator = this.props.navigator;
     _item = this.props.route.row;
+    _screenWidth = Dimensions.get('window').width;
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       dataSource: ds.cloneWithRows(this._getData()),
@@ -46,9 +48,14 @@ module.exports = React.createClass({
     .then((response) => response.text())
     .then((responseText) => {
       var  jsonObject = eval("(" + responseText + ")");
-      var array = jsonObject.subcollection;
+      var array = jsonObject.picList;
       for(var i=0; i<array.length; i++ ){
-        datas.push(array[i]);
+        var imageRow;
+        if(i %3 == 0){
+            imageRow = [];
+            datas.push(imageRow);
+        }
+        imageRow[i%3] = array[i];
       }
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(datas),
@@ -62,34 +69,27 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-          <View>
-            <View style={{ justifyContent:'center', alignItems:'center',
-             backgroundColor:'#FFFF00' , height:56, }}>
-              <Text style={{    color:'#212121', fontSize:20,}}>{ _item.title }</Text>
-            </View>
-            <ListView dataSource={this.state.dataSource}
-              renderRow={(rowData) =>
-                <TouchableOpacity>
-                  <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
-                    <Image source={{ uri: rowData.thumlink }} style={{height:80,width:80, margin:12,}} />
-                    <Text style={{ marginTop:12, color:'#234', fontSize:16,}}>{rowData.title}</Text>
-                    <Text style={{ margin:12, color:'#aaaa00', fontSize:24, }}>></Text>
-                  </View>
-                </TouchableOpacity>
-              }/>
-            </View>
+      <ScrollView>
+        <View>
+          <View style={{ justifyContent:'center', alignItems:'center',backgroundColor:'#FFFF00' , height:56, }}>
+            <Text style={{    color:'#212121', fontSize:20,}}>{ _item.title }</Text>
+          </View>
+          <ListView dataSource={this.state.dataSource}
+            renderRow={(rowData) =>
+                <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
+                  <TouchableOpacity>
+                    <Image source={{ uri: rowData[0].link }} style={{ width: _screenWidth/3-2, height: _screenWidth/3-2 }} />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image source={{ uri: rowData[1] !=null ? rowData[1].link : 'http://www.hanks.xyz/1.png' }} style={{ width: _screenWidth/3-2, height: _screenWidth/3-2 }} />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image source={{ uri: rowData[2] !=null ? rowData[2].link : 'http://www.hanks.xyz/1.png'}} style={{ width: _screenWidth/3-2, height: _screenWidth/3-2 }} />
+                  </TouchableOpacity>
+                </View>
+            }/>
+          </View>
+      </ScrollView>
     );
   }
-});
-var styles = StyleSheet.create({
-  topImage:{
-     flex:1,
-     alignSelf:'stretch',
-  },
-  item:{
-  },
-  itemText:{
-      alignSelf:'center',
-  },
-  itemImage:{height:90,width:90, margin:12,},
 });
