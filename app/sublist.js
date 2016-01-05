@@ -35,7 +35,7 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
 
 module.exports = React.createClass({
   getInitialState: function(){
-     _navigator = this.props.navigator;
+    _navigator = this.props.navigator;
     _item = this.props.route.row;
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
@@ -62,14 +62,11 @@ module.exports = React.createClass({
     }).done;
     return datas;
   },
-
     configureScenceAndroid: function(){
       return Navigator.SceneConfigs.FadeAndroid;
     },
-
     renderSceneAndroid: function(route, navigator){
-      _navigator = navigator;
-      if(route.id === 'main'){
+      if(route.id === 'subList'){
         return (
           <View>
             <View style={{ justifyContent:'center', alignItems:'center',
@@ -78,11 +75,11 @@ module.exports = React.createClass({
             </View>
             <ListView dataSource={this.state.dataSource}
               renderRow={(rowData) =>
-                <TouchableOpacity onPress={() => _navigator.push({ row:rowData,id:'imageList'})}  >
+                <TouchableOpacity onPress={() => navigator.push({ row:rowData,id:'imageList'})}  >
                   <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
                     <Image source={{ uri: rowData.thumlink }} style={{height:80,width:80, margin:12,}} />
                     <Text style={{ marginTop:12, color:'#234', fontSize:16,}}>{rowData.title}</Text>
-                    <Text style={{ margin:12, color:'#aaaa00', fontSize:24, }}>></Text>
+                    <Text style={{ margin:12, color:'#FFFF00', fontSize:24, }}>></Text>
                   </View>
                 </TouchableOpacity>
               }/>
@@ -91,7 +88,7 @@ module.exports = React.createClass({
       }
       if(route.id === 'imageList'){
         return (
-          <ImageListView navigator={navigator} route={route}/>
+          <ImageListView navigator={_navigator} route={route}/>
          );
       }
     },
@@ -101,7 +98,7 @@ module.exports = React.createClass({
     return (
       <Navigator
        debugOverlay={false}
-       initialRoute={{ id:'main'}}
+       initialRoute={{ id:'subList'}}
        configureScence={{ configureScence }}
        renderScene={renderScene}
       />

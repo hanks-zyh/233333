@@ -31,7 +31,6 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   _navigator.pop();
   return true;
 });
-
 module.exports = React.createClass({
   getInitialState: function(){
     _navigator = this.props.navigator;
@@ -88,7 +87,7 @@ module.exports = React.createClass({
                   </TouchableOpacity>
                 </View>
             }/>
-          </View>
+        </View>
       </ScrollView>
     );
   }
