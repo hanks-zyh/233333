@@ -69,7 +69,7 @@ module.exports = React.createClass({
             </View>
             <ListView dataSource={this.state.dataSource}
               renderRow={(rowData) =>
-                <TouchableOpacity onPress={ ()=> _navigator.push({row:rowData,id='imageList'}) } >
+                <TouchableOpacity>
                   <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
                     <Image source={{ uri: rowData.thumlink }} style={{height:80,width:80, margin:12,}} />
                     <Text style={{ marginTop:12, color:'#234', fontSize:16,}}>{rowData.title}</Text>
