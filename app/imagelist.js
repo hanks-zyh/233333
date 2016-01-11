@@ -16,6 +16,7 @@ var {
   ListView,
   BackAndroid,
   Dimensions,
+  IntentAndroid,
 } = React;
 
 var _item ;
@@ -32,6 +33,19 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   return true;
 });
 module.exports = React.createClass({
+  download:function (rowData) {
+      if(rowData!=null){
+        var url = rowData.link;
+        IntentAndroid.canOpenURL(url, (supported) => {
+          if (!supported) {
+            console.log('Can\'t handle url: ' + url);
+          } else {
+            IntentAndroid.openURL(url);
+          }
+        });
+      }
+  },
+
   getInitialState: function(){
     _navigator = this.props.navigator;
     _item = this.props.route.row;
@@ -76,13 +90,13 @@ module.exports = React.createClass({
           <ListView dataSource={this.state.dataSource}
             renderRow={(rowData) =>
                 <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={ ()=>this.download(rowData[0])}>
                     <Image source={{ uri: rowData[0].link }} style={{ width: _screenWidth/3-2, height: _screenWidth/3-2 }} />
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={ ()=>this.download(rowData[1])}>
                     <Image source={{ uri: rowData[1] !=null ? rowData[1].link : 'http://www.hanks.xyz/1.png' }} style={{ width: _screenWidth/3-2, height: _screenWidth/3-2 }} />
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={ ()=>this.download(rowData[2])}>
                     <Image source={{ uri: rowData[2] !=null ? rowData[2].link : 'http://www.hanks.xyz/1.png'}} style={{ width: _screenWidth/3-2, height: _screenWidth/3-2 }} />
                   </TouchableOpacity>
                 </View>
