@@ -68,7 +68,9 @@ module.exports = React.createClass({
     renderSceneAndroid: function(route, navigator){
       if(route.id === 'subList'){
         return (
+          <ScrollView>
           <View>
+
             <View style={{ justifyContent:'center', alignItems:'center',
              backgroundColor:'#FFFF00' , height:56, }}>
               <Text style={{    color:'#212121', fontSize:20,}}>{ _item.title }</Text>
@@ -84,6 +86,7 @@ module.exports = React.createClass({
                 </TouchableOpacity>
               }/>
             </View>
+          </ScrollView>
         );
       }
       if(route.id === 'imageList'){
